@@ -2,6 +2,6 @@ test:
   script:
     - sbt docker:publish
   tags:
-    - master
+    - release
 
 
