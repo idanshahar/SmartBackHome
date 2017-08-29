@@ -1,5 +1,6 @@
 test:
   script:
-    - sbt docker:publishLocal
+    - sbt docker:publish
   tags:
     - master
+
