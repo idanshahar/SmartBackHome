@@ -14,12 +14,12 @@ libraryDependencies ++= Seq(
 
 libraryDependencies ++= Seq(
   "com.google.code.gson" % "gson" % "2.8.1",
-  "com.microsoft.azure.sdk.iot" % "iot-service-client" % "1.9.24",
-  "com.spotify" % "docker-client" % "3.5.13"
-
+  "com.microsoft.azure.sdk.iot" % "iot-service-client" % "1.9.24"
 )
 
-enablePlugins(UniversalPlugin)
+//enablePlugins(UniversalPlugin)
+enablePlugins(sbtdocker.DockerPlugin, JavaAppPackaging)
+
 
 
 dockerExposedPorts := Seq(9000, 9443)
