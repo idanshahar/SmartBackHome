@@ -2,9 +2,11 @@ stages:
   - build
   - deploy
 build:
+  stage: build
   script:
     - sbt compile
 deploy:
+  stage: deploy
   script:
     - sbt docker:publish
   only:
