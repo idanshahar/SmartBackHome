@@ -1,7 +1,13 @@
-test:
+stages:
+  - build
+  - deploy
+build:
+  script:
+    - sbt compile
+deploy:
   script:
     - sbt docker:publish
-  tags:
+  only:
     - release
 
 
