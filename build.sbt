@@ -35,6 +35,6 @@ dockerExposedVolumes := Seq("/opt/docker/logs")
 
 defaultLinuxInstallLocation in Docker := "/opt/docker"
 
-dockerRepository := Some("smartbackhomeregistry.azurecr.io")
+dockerRepository := Some("backhomeregistry.azurecr.io")
 
 dockerUpdateLatest := true

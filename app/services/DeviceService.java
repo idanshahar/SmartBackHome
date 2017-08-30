@@ -48,4 +48,8 @@ public class DeviceService {
         Device dev = devices.getDevice(deviceId);
         dev.generateCommand(jsonObject).execute(executor,dev);
     }
+
+    public boolean isExists(String id) {
+        return devices.getDevice(id) == null ? false : true;
+    }
 }
