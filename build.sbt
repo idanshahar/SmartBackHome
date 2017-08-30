@@ -27,7 +27,7 @@ packageName in Docker := packageName.value
 
 version in Docker := version.value
 
-dockerBaseImage := "openjdk:alpine"
+dockerBaseImage := "openjdk"
 
 dockerExposedPorts := Seq(9000, 9443)
 
