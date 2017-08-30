@@ -3,6 +3,8 @@ package controllers;
 
 import javax.inject.*;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import executors.AzureHubExecutor;
 import org.apache.http.HttpStatus;
 import play.Logger;
@@ -44,8 +46,15 @@ public class DeviceController extends Controller {
     public Result control() throws Exception {
         try {
             String json =  request().body().asJson().toString();
-            deviceService.executeCommand(json);
-            return ok();
+            Gson gson = new Gson();
+            JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+            String deviceId = jsonObject.get("id").getAsString();
+            if(deviceService.isExists(deviceId)) {
+                deviceService.executeCommand(json);
+                return ok();
+            }
+            else
+                return notFound("device not found");
         } catch (Exception e) {
 
             Logger.error("Can't control device", e);
