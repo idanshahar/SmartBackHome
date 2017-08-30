@@ -18,7 +18,6 @@ libraryDependencies ++= Seq(
 )
 
 //enablePlugins(UniversalPlugin)
-enablePlugins(sbtdocker.DockerPlugin, JavaAppPackaging)
 
 
 
