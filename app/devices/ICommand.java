@@ -10,7 +10,7 @@ import java.util.concurrent.CompletionStage;
  */
 public interface ICommand {
 
-    void execute(IExecutor executor, Device device);
-    int getStatus();
-    int setStatus(int status);
+    void execute(IExecutor executor, Device device) throws Exception;
+    String getCommand();
+    String setCommand(String command);
 }

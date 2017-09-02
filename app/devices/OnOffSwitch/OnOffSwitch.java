@@ -3,7 +3,7 @@ package devices.OnOffSwitch;
 import com.google.gson.JsonObject;
 import devices.ICommand;
 import devices.Device;
-import enums.States;
+
 
 /**
  * Created by idan on 3/17/16.
@@ -11,7 +11,7 @@ import enums.States;
 
 public class OnOffSwitch extends Device {
 
-    public OnOffSwitch(String id, int status) {
+    public OnOffSwitch(String id, String status) {
         super(id,status);
     }
 
@@ -20,21 +20,21 @@ public class OnOffSwitch extends Device {
     }
 
     public OnOffSwitch(JsonObject json){
-        super(json.get("id").getAsString(),json.get("status").getAsInt());
+        super(json.get("id").getAsString(), json.get("status").getAsString());
     }
 
     @Override
-    public ICommand generateCommand(JsonObject json) {
-        ICommand command= new OnOffCommand(json.get("id").getAsString(),json.get("status").getAsInt());
-        return command;
+    public ICommand generateCommand(String command) {
+        ICommand onOfSwitchCommand= new OnOffCommand(getId(), command);
+        return onOfSwitchCommand;
     }
 
     public String turnOn(){
-        super.setStatus(States.ON);
+        super.setStatus("ON");
         return "turnOn";
     }
     public String turnOff(){
-        super.setStatus(States.OFF);
+        super.setStatus("OFF");
         return "turnOff";
     }
 

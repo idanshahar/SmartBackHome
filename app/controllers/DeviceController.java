@@ -19,12 +19,13 @@ import java.util.concurrent.CompletionStage;
 public class DeviceController extends Controller {
 
     private DeviceService deviceService;
+    private Gson gson;
 
     @Inject
     public DeviceController(DeviceService deviceService) {
         this.deviceService = deviceService;
-
         this.deviceService = deviceService.addExecutor(new AzureHubExecutor());
+        gson = new Gson();
     }
 
     public CompletionStage<Result> devices() throws Exception {
@@ -38,25 +39,35 @@ public class DeviceController extends Controller {
     }
 
     public Result addDevice() throws Exception {
-        String json =  request().body().asJson().toString();
-        return ok(deviceService.addDevice(json));                   
+        try {
+            String json = request().body().asJson().toString();
+            JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+            String deviceType = jsonObject.get("type").getAsString();
+            return ok(deviceService.addDevice(deviceType));
+        }
+        catch (Exception e) {
+            Logger.warn("Could not add device", e);
+            return internalServerError("Could not add device");
+        }
+
 
     }
 
     public Result control() throws Exception {
         try {
             String json =  request().body().asJson().toString();
-            Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+
             String deviceId = jsonObject.get("id").getAsString();
+            String command = jsonObject.get("command").getAsString();
+
             if(deviceService.isExists(deviceId)) {
-                deviceService.executeCommand(json);
+                deviceService.executeCommand(deviceId, command);
                 return ok();
             }
             else
                 return notFound("device not found");
         } catch (Exception e) {
-
             Logger.error("Can't control device", e);
             return internalServerError("Ops something bad happened :(");
         }
