@@ -1,7 +1,6 @@
 package devices.OnOffSwitch;
 
 import devices.ICommand;
-import enums.States;
 import devices.Device;
 import executors.IExecutor;
 
@@ -10,36 +9,40 @@ import executors.IExecutor;
  */
 public class OnOffCommand implements ICommand {
 
-    private int status;
+    private String command;
 
 
-    public OnOffCommand(String id, int status) {
-        this.status = status;
+    public OnOffCommand(String id, String command) {
+        this.command = command;
 
     }
 
     @Override
-    public void execute(IExecutor executor, Device device) {
+    public void execute(IExecutor executor, Device device) throws Exception {
         OnOffSwitch dev = (OnOffSwitch) device;
         String deviceId = device.getId();
-        switch (status) {
-            case States.OFF:
+        switch (command) {
+            case "turnOn":
                 executor.execute(dev.turnOff(),this, deviceId);
                 break;
 
-            case States.ON:
+            case "turnOff":
                 executor.execute(dev.turnOn(),this, deviceId);
                 break;
+            default:
+                throw new Exception("command does not exists");
+
         }
 
     }
 
-    public int getStatus(){
-        return status;
+
+    public String getCommand(){
+        return command;
     }
 
     @Override
-    public int setStatus(int status) {
-        return 0;
+    public String setCommand(String status) {
+        return status;
     }
 }

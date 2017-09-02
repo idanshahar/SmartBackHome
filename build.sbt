@@ -17,10 +17,6 @@ libraryDependencies ++= Seq(
   "com.microsoft.azure.sdk.iot" % "iot-service-client" % "1.9.24"
 )
 
-//enablePlugins(UniversalPlugin)
-
-
-
 dockerExposedPorts := Seq(9000, 9443)
 
 packageName in Docker := packageName.value

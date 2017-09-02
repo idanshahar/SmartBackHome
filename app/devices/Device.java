@@ -9,10 +9,10 @@ public abstract class Device {
 
 
     private String id;
-    private int status;
+    private String status;
 
 
-    public Device(String id,int status) {
+    public Device(String id, String status) {
         this.id = id;
         this.status = status;
     }
@@ -25,17 +25,17 @@ public abstract class Device {
         this.id = id;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
-    public int getCurrentStatus(){
+    public String getCurrentStatus(){
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    abstract public ICommand generateCommand(JsonObject Json);
+    abstract public ICommand generateCommand(String command);
 
 }

@@ -25,13 +25,10 @@ public class DeviceService {
         return this;
     }
 
-    public String addDevice(String json) throws Exception {
-        JsonObject jsonObject = (JsonObject)jsonConverter.fromJson(json,JsonObject.class);
-        String className = jsonObject.get("type").getAsString();
-        Device dev = gson.fromJson("{}", (Class<Device>) Class.forName(String.format("devices.%s.%s",className,className)));
+    public String addDevice(String deviceType) throws Exception {
+        Device dev = gson.fromJson("{}", (Class<Device>) Class.forName(String.format("devices.%s.%s", deviceType, deviceType)));
         devices.addDevice(dev);
         return dev.getId();
-
     }
     public CompletableFuture<String> getDevicesJson() throws Exception {
         try {
@@ -42,11 +39,9 @@ public class DeviceService {
         }
     }
 
-    public void executeCommand(String json) throws Exception {
-        JsonObject jsonObject = (JsonObject)jsonConverter.fromJson(json, JsonObject.class);
-        String deviceId = jsonObject.get("id").getAsString();
+    public void executeCommand(String deviceId ,String command) throws Exception {
         Device dev = devices.getDevice(deviceId);
-        dev.generateCommand(jsonObject).execute(executor,dev);
+        dev.generateCommand(command).execute(executor, dev);
     }
 
     public boolean isExists(String id) {

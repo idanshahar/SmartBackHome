@@ -48,8 +48,6 @@ public class AzureHubExecutor implements IExecutor {
     public void execute(String method,ICommand command, String deviceId) {
 
         try {
-
-
             Map<String, String> propertiesToSend = new HashMap<String, String>();
 
             Message messageToSend = new Message(gson.toJson(command));
