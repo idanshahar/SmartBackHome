@@ -5,6 +5,7 @@ import javax.inject.*;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import exceptions.NotCompatibleDeviceException;
 import executors.AzureHubExecutor;
 import org.apache.http.HttpStatus;
 import play.Logger;
@@ -24,6 +25,7 @@ public class DeviceController extends Controller {
     @Inject
     public DeviceController(DeviceService deviceService) {
         this.deviceService = deviceService;
+
         this.deviceService = deviceService.addExecutor(new AzureHubExecutor());
         gson = new Gson();
     }
@@ -44,6 +46,9 @@ public class DeviceController extends Controller {
             JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
             String deviceType = jsonObject.get("type").getAsString();
             return ok(deviceService.addDevice(deviceType));
+        }
+        catch (NotCompatibleDeviceException e) {
+            return notFound("Couldn't find device type");
         }
         catch (Exception e) {
             Logger.warn("Could not add device", e);
@@ -67,9 +72,10 @@ public class DeviceController extends Controller {
             }
             else
                 return notFound("device not found");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             Logger.error("Can't control device", e);
-            return internalServerError("Ops something bad happened :(");
+            return internalServerError("Ops something bad happened. Reason:" + e.getMessage());
         }
     }
 
