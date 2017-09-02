@@ -23,11 +23,11 @@ public class OnOffCommand implements ICommand {
         String deviceId = device.getId();
         switch (command) {
             case "turnOn":
-                executor.execute(dev.turnOff(),this, deviceId);
+                executor.execute(dev.turnOn(),this, deviceId);
                 break;
 
             case "turnOff":
-                executor.execute(dev.turnOn(),this, deviceId);
+                executor.execute(dev.turnOff(),this, deviceId);
                 break;
             default:
                 throw new Exception("command does not exists");
